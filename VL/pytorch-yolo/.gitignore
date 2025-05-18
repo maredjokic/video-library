@@ -1,0 +1,10 @@
+.vs/
+yolov3.weights
+yolov3-openimages.weights
+imgs/
+*.jpg
+output*.txt
+*.mov
+*.mp4
+*.3g2
+logs.txt

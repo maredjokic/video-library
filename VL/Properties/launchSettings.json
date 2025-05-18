@@ -1,0 +1,41 @@
+﻿{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false, 
+    "anonymousAuthentication": true, 
+    "iisExpress": {
+      "applicationUrl": "http://localhost:64766",
+      "sslPort": 44344
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "api/values",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Video_Library_Api": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "api/videos",
+      "applicationUrl": "http://192.168.200.93:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "LD_LIBRARY_PATH": "/opt/copyright/fpmatch64/:/opt/motiondsp/ffmpeg/lib/:/opt/motiondsp/klv2json/lib/",
+        "PATH": "/opt/motiondsp/ffmpeg/bin/:/opt/motiondsp/klv2json/bin/:/opt/copyright/fpgen/:/opt/motiondsp/bin/"
+      }
+    },
+    "Video_Library_Api-Windows": {
+      "commandName": "Project-Windows",
+      "launchBrowser": true,
+      "launchUrl": "api/videos",
+      "applicationUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

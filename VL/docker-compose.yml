@@ -1,0 +1,75 @@
+version: "2.3"
+services:
+    api:
+        container_name: video_library_api
+        depends_on:
+            - db
+        build:
+            context: '.'
+            dockerfile: 'DockerfileApi'
+        ports:
+            - "8000:80"
+        volumes:
+            - "wwwroot:/app/wwwroot"
+            - "logs:/app/Logs"
+            - "/app/opt:/opt"
+            - "/app/videos:/app/Videos"
+        networks: 
+            - default_network
+        environment:
+            PATH: $PATH:/opt/motiondsp/ffmpeg/bin:/opt/motiondsp/klv2json/bin:/opt/copyright/fpgen/:/opt/motiondsp/ffmpeg/bin
+            LD_LIBRARY_PATH: "/opt/copyright/fpmatch64/:/opt/motiondsp/ffmpeg/lib/:/opt/motiondsp/klv2json/lib/"
+            ASPNETCORE_URLS: "http://0.0.0.0:80"
+            DOCKER_ENVIRONMENT: "true"
+    db:
+        container_name: video_library_db
+        build:
+            context: '.'
+            dockerfile: 'DockerfileDb'
+        ports: 
+            - "5432"
+        volumes:
+            - "db-data:/var/lib/postgresql/data:Z"
+        environment:
+            POSTGRES_USER: db_user
+            POSTGRES_PASSWORD: db_pass
+            POSTGRES_DB: video_library
+        networks: 
+            - default_network
+    pgadmin:
+        container_name: video_library_pgadmin
+        image: dpage/pgadmin4
+        ports:
+            - "12345:80"
+        environment:
+            PGADMIN_DEFAULT_EMAIL: user@domain.com
+            PGADMIN_DEFAULT_PASSWORD: SuperSecret
+        networks: 
+            - default_network
+    ml:
+        container_name: video_library_ml
+        # runtime: nvidia #just to emphasize, default runtime is nvidia
+        build:
+            context: '.'
+            dockerfile: 'DockerfileML'
+        volumes:
+            - "wwwroot:/wwwroot"
+        depends_on:
+            - api
+        environment:
+            FLASK_APP: server
+            # FLASK_DEBUG: 1
+            NVIDIA_VISIBLE_DEVICES: all
+        networks:
+            - default_network
+networks:
+    default_network:
+        # name: video_library_network
+        driver: bridge
+volumes:
+    db-data:
+        name: video_library_db-data
+    wwwroot:
+        name: video_library_wwwroot
+    logs:
+        name: video_library_logs
